@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String
+  password String
+  admin    Boolean @default(false)
+}
+
+model Consumer {
+  id    Int     @id @default(autoincrement())
+  email String
+  phone String
+  name  String
+  Index Index[]
+}
+
+model Mask {
+  id        Int    @id @default(autoincrement())
+  name      String
+  owner     String
+  age       Int
+  price     Int
+  condition Int
+  benefit   Int
+}
+
+model Weight {
+  id     Int     @id @default(autoincrement())
+  target String  @unique
+  value  Decimal
+  tren   Boolean
+}
+
+model Index {
+  id         Int      @id @default(autoincrement())
+  consumer   Consumer @relation(fields: [consumerId], references: [id], onDelete: Cascade)
+  consumerId Int      @unique
+  age        Int
+  price      Int
+  condition  Int
+  benefit    Int
+}

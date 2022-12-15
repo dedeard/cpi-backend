@@ -1,0 +1,7 @@
+dist
+uploads
+node_modules
+*.log
+logs
+.env
+prisma/db.*
