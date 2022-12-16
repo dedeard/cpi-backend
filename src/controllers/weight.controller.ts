@@ -15,7 +15,7 @@ export const updateWeight = ca(async (req, res) => {
   if (!weight) throw new ApiError(400, 'Weight is undefined')
   try {
     const { target, value, tren } = req.body
-    req.body = Joi.object({
+    req.body = await Joi.object({
       target: Joi.string().min(3).max(30).required(),
       value: Joi.number().min(0).max(1).required(),
       tren: Joi.boolean().required(),

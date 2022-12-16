@@ -11,7 +11,7 @@ export const getConsumers = ca(async (req, res) => {
 export const createConsumer = ca(async (req, res) => {
   try {
     const { name, email, phone } = req.body
-    req.body = Joi.object({
+    req.body = await Joi.object({
       name: Joi.string().min(3).max(30).required(),
       email: Joi.string().email().required(),
       phone: Joi.string().min(3).max(30).required(),
@@ -19,7 +19,6 @@ export const createConsumer = ca(async (req, res) => {
   } catch (e) {
     throw new ApiError(422, 'Failed to create album.', e)
   }
-
   const consumer = await db.consumer.create({ data: req.body })
   res.json(consumer)
 })
@@ -32,7 +31,7 @@ export const updateConsumer = ca(async (req, res) => {
 
   try {
     const { name, email, phone } = req.body
-    req.body = Joi.object({
+    req.body = await Joi.object({
       name: Joi.string().min(3).max(30).required(),
       email: Joi.string().email().required(),
       phone: Joi.string().min(3).max(30).required(),

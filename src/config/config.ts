@@ -16,10 +16,10 @@ const config = {
   },
 
   maskMinValue: {
-    age: 7,
-    price: 4,
-    condition: 6,
-    benefit: 5,
+    age: 1,
+    price: 1,
+    condition: 1,
+    benefit: 1,
   },
 }
 

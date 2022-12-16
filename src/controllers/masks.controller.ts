@@ -1,4 +1,3 @@
-import config from '@/config/config'
 import db from '@/config/db'
 import ApiError from '@/shared/ApiError'
 import ca from '@/shared/catchAsync'
@@ -11,15 +10,14 @@ export const getMasks = ca(async (req, res) => {
 
 export const createMask = ca(async (req, res) => {
   try {
-    const { name, owner, age, price, condition, benefit } = req.body
-    req.body = Joi.object({
-      name: Joi.string().min(3).max(30).required(),
-      owner: Joi.string().min(3).max(30).required(),
-      age: Joi.number().min(3).max(9).required(),
-      price: Joi.number().min(3).max(9).required(),
-      condition: Joi.number().min(3).max(9).required(),
-      benefit: Joi.number().min(3).max(9).required(),
-    }).validateAsync({ name, owner, age, price, condition, benefit }, { abortEarly: false })
+    const { name, age, price, condition, benefit } = req.body
+    req.body = await Joi.object({
+      name: Joi.string().min(3).max(250).required(),
+      age: Joi.number().min(4).max(7).required(),
+      price: Joi.number().min(4).max(7).required(),
+      condition: Joi.number().min(4).max(7).required(),
+      benefit: Joi.number().min(4).max(7).required(),
+    }).validateAsync({ name, age, price, condition, benefit }, { abortEarly: false })
   } catch (e) {
     throw new ApiError(422, 'Failed to create mask.', e)
   }
@@ -34,15 +32,14 @@ export const updateMask = ca(async (req, res) => {
   let mask = await db.mask.findFirst({ where: { id } })
   if (!mask) throw new ApiError(400, 'Mask is undefined')
   try {
-    const { name, owner, age, price, condition, benefit } = req.body
-    req.body = Joi.object({
-      name: Joi.string().min(3).max(30).required(),
-      owner: Joi.string().min(3).max(30).required(),
-      age: Joi.number().min(config.maskMinValue.age).required(),
-      price: Joi.number().min(config.maskMinValue.price).required(),
-      condition: Joi.number().min(config.maskMinValue.condition).required(),
-      benefit: Joi.number().min(config.maskMinValue.benefit).required(),
-    }).validateAsync({ name, owner, age, price, condition, benefit }, { abortEarly: false })
+    const { name, age, price, condition, benefit } = req.body
+    req.body = await Joi.object({
+      name: Joi.string().min(3).max(250).required(),
+      age: Joi.number().min(4).max(7).required(),
+      price: Joi.number().min(4).max(7).required(),
+      condition: Joi.number().min(4).max(7).required(),
+      benefit: Joi.number().min(4).max(7).required(),
+    }).validateAsync({ name, age, price, condition, benefit }, { abortEarly: false })
   } catch (e) {
     throw new ApiError(422, 'Failed to create mask.', e)
   }

@@ -33,7 +33,10 @@ export const cpi = ca(async (req, res) => {
         },
       }
       const h = {
-        age: [w.age.tren ? mask.age / index.age : index.age / mask.age, (w.age.tren ? mask.age / index.age : index.age / mask.age) * 100],
+        age: [
+          w.age.tren ? mask.age / index.age : index.age / mask.age,
+          (w.age.tren ? mask.age / index.age : index.age / mask.age) * 100,
+        ],
         price: [
           w.price.tren ? mask.price / index.price : index.price / mask.price,
           (w.price.tren ? mask.price / index.price : index.price / mask.price) * 100,
@@ -47,7 +50,11 @@ export const cpi = ca(async (req, res) => {
           (w.benefit.tren ? mask.benefit / index.benefit : index.benefit / mask.benefit) * 100,
         ],
       }
-      const cpi = h.age[1] * w.age.value + h.price[1] * w.price.value + h.condition[1] * w.condition.value + h.benefit[1] * w.benefit.value
+      const cpi =
+        h.age[1] * w.age.value +
+        h.price[1] * w.price.value +
+        h.condition[1] * w.condition.value +
+        h.benefit[1] * w.benefit.value
       return {
         ...mask,
         cpi: Math.trunc(cpi * 100) / 100,

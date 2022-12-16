@@ -26,7 +26,6 @@ model Consumer {
 model Mask {
   id        Int    @id @default(autoincrement())
   name      String
-  owner     String
   age       Int
   price     Int
   condition Int
