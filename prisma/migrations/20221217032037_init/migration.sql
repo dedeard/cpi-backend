@@ -24,7 +24,6 @@ CREATE TABLE `Consumer` (
 CREATE TABLE `Mask` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `owner` VARCHAR(191) NOT NULL,
     `age` INTEGER NOT NULL,
     `price` INTEGER NOT NULL,
     `condition` INTEGER NOT NULL,
@@ -40,11 +39,12 @@ CREATE TABLE `Weight` (
     `value` DECIMAL(65, 30) NOT NULL,
     `tren` BOOLEAN NOT NULL,
 
+    UNIQUE INDEX `Weight_target_key`(`target`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `CPI` (
+CREATE TABLE `Index` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `consumerId` INTEGER NOT NULL,
     `age` INTEGER NOT NULL,
@@ -52,8 +52,9 @@ CREATE TABLE `CPI` (
     `condition` INTEGER NOT NULL,
     `benefit` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Index_consumerId_key`(`consumerId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `CPI` ADD CONSTRAINT `CPI_consumerId_fkey` FOREIGN KEY (`consumerId`) REFERENCES `Consumer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Index` ADD CONSTRAINT `Index_consumerId_fkey` FOREIGN KEY (`consumerId`) REFERENCES `Consumer`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
