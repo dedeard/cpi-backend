@@ -23,7 +23,9 @@ route.put('/masks/:id', auth({ isAdmin: true }), maskC.updateMask)
 route.delete('/masks/:id', auth({ isAdmin: true }), maskC.destroyMask)
 
 route.get('/weight', auth({ isAdmin: true }), weightC.getWeight)
+route.post('/weight', auth({ isAdmin: true }), weightC.createWeight)
 route.put('/weight/:id', auth({ isAdmin: true }), weightC.updateWeight)
+route.delete('/weight/:id', auth({ isAdmin: true }), weightC.deleteWeight)
 
 route.get('/indexes', auth({ isAdmin: true }), indexC.getIndexes)
 route.post('/indexes', auth({ isAdmin: true }), indexC.createIndex)
