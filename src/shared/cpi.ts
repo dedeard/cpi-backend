@@ -1,18 +1,7 @@
-import db from '@/config/db'
-import ApiError from '@/shared/ApiError'
-import ca from '@/shared/catchAsync'
+import { Index, Mask, Weight } from '@prisma/client'
 
-export const cpi = ca(async (req, res) => {
-  const consumerId = Number(req.query.id)
-  if (isNaN(consumerId) || consumerId < 1) throw new ApiError(400, 'Consumer id is invalid')
-  const consumer = await db.consumer.findFirst({ where: { id: consumerId } })
-  if (!consumer) throw new ApiError(400, 'Consumer not found')
-  const index = await db.index.findFirst({ where: { consumerId } })
-  if (!index) throw new ApiError(400, 'Consumer id is invalid')
-  const masks = await db.mask.findMany()
-  const weight = await db.weight.findMany()
-
-  const data = masks
+export default function cpi(index: Index, masks: Mask[], weight: Weight[]) {
+  return masks
     .map((mask) => {
       const w = {
         age: {
@@ -33,10 +22,7 @@ export const cpi = ca(async (req, res) => {
         },
       }
       const h = {
-        age: [
-          w.age.tren ? mask.age / index.age : index.age / mask.age,
-          (w.age.tren ? mask.age / index.age : index.age / mask.age) * 100,
-        ],
+        age: [w.age.tren ? mask.age / index.age : index.age / mask.age, (w.age.tren ? mask.age / index.age : index.age / mask.age) * 100],
         price: [
           w.price.tren ? mask.price / index.price : index.price / mask.price,
           (w.price.tren ? mask.price / index.price : index.price / mask.price) * 100,
@@ -50,17 +36,11 @@ export const cpi = ca(async (req, res) => {
           (w.benefit.tren ? mask.benefit / index.benefit : index.benefit / mask.benefit) * 100,
         ],
       }
-      const cpi =
-        h.age[1] * w.age.value +
-        h.price[1] * w.price.value +
-        h.condition[1] * w.condition.value +
-        h.benefit[1] * w.benefit.value
+      const cpi = h.age[1] * w.age.value + h.price[1] * w.price.value + h.condition[1] * w.condition.value + h.benefit[1] * w.benefit.value
       return {
         ...mask,
         cpi: Math.trunc(cpi * 100) / 100,
       }
     })
     .sort((a, b) => b.cpi - a.cpi)
-
-  res.json({ cpi: data, consumer })
-})
+}
