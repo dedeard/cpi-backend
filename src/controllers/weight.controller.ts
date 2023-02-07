@@ -12,7 +12,7 @@ export const createWeight = ca(async (req, res) => {
   try {
     const { target, value, tren } = req.body
     req.body = await Joi.object({
-      target: Joi.string().min(3).max(30).valid('age', 'price', 'condition', 'benefit').required(),
+      target: Joi.string().min(3).max(30).valid('age', 'price', 'condition').required(),
       value: Joi.number().min(0).max(1).required(),
       tren: Joi.boolean().required(),
     }).validateAsync({ target, value, tren }, { abortEarly: false })
@@ -33,7 +33,7 @@ export const updateWeight = ca(async (req, res) => {
   try {
     const { target, value, tren } = req.body
     req.body = await Joi.object({
-      target: Joi.string().min(3).max(30).valid('age', 'price', 'condition', 'benefit').required(),
+      target: Joi.string().min(3).max(30).valid('age', 'price', 'condition').required(),
       value: Joi.number().min(0).max(1).required(),
       tren: Joi.boolean().required(),
     }).validateAsync({ target, value, tren }, { abortEarly: false })

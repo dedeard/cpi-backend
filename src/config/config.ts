@@ -19,7 +19,6 @@ const config = {
     age: 1,
     price: 1,
     condition: 1,
-    benefit: 1,
   },
 }
 
