@@ -29,6 +29,7 @@ model Mask {
   age       Int
   price     Decimal @db.Decimal(10, 2)
   condition String
+  image     String?
 }
 
 model Weight {

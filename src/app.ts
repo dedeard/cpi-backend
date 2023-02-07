@@ -1,7 +1,9 @@
+import path from 'path'
 import http from 'http'
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import fileUpload from 'express-fileupload'
 import config from '@/config/config'
 import logger from '@/config/logger'
 import routes from '@/routes'
@@ -22,13 +24,18 @@ class Application {
 
   config() {
     this.app.enable('trust proxy')
-    console.log('ok')
     if (config.isDev) {
       this.app.use(morgan('dev'))
     }
     this.app.use(cors())
+    this.app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
+    this.app.use(
+      fileUpload({
+        limits: { fileSize: 5 * 1024 * 1024 },
+      }),
+    )
     this.app.use(routes)
   }
 
