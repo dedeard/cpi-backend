@@ -1,22 +1,24 @@
 import db from '@/config/db'
 import ApiError from '@/shared/ApiError'
 import ca from '@/shared/catchAsync'
-import cpi from '@/shared/cpi'
+import cpi, { getAge } from '@/shared/cpi'
 import Joi from 'joi'
 
 export const getIndexes = ca(async (req, res) => {
   const indexes = await db.index.findMany({ include: { consumer: true } })
-  const masks = await db.mask.findMany()
   const weight = await db.weight.findMany()
 
-  const data = indexes.map((el) => {
-    return {
-      ...el,
-      cpi: cpi(el, masks, weight)[0] || null,
+  const data = indexes.map(async (el) => {
+    const age = getAge(el.age)
+    let where: any = { AND: [{ age: { gte: 13 } }, { age: { lte: 19 } }] }
+    if (age == 2) {
+      where = { age: { gt: 19 } }
     }
+    const masks = await db.mask.findMany({ where })
+    return { ...el, cpi: cpi(el, masks, weight)[0] || null }
   })
 
-  res.json(data)
+  res.json(await Promise.all(data))
 })
 
 export const createIndex = ca(async (req, res) => {
