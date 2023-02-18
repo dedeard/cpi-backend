@@ -25,9 +25,9 @@ CREATE TABLE `Mask` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `age` INTEGER NOT NULL,
-    `price` INTEGER NOT NULL,
-    `condition` INTEGER NOT NULL,
-    `benefit` INTEGER NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    `condition` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -36,7 +36,7 @@ CREATE TABLE `Mask` (
 CREATE TABLE `Weight` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `target` VARCHAR(191) NOT NULL,
-    `value` DECIMAL(65, 30) NOT NULL,
+    `value` DECIMAL(2, 2) NOT NULL,
     `tren` BOOLEAN NOT NULL,
 
     UNIQUE INDEX `Weight_target_key`(`target`),
@@ -48,9 +48,8 @@ CREATE TABLE `Index` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `consumerId` INTEGER NOT NULL,
     `age` INTEGER NOT NULL,
-    `price` INTEGER NOT NULL,
-    `condition` INTEGER NOT NULL,
-    `benefit` INTEGER NOT NULL,
+    `price` DECIMAL(10, 2) NOT NULL,
+    `condition` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Index_consumerId_key`(`consumerId`),
     PRIMARY KEY (`id`)

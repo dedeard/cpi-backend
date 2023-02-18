@@ -15,6 +15,18 @@ const config = {
     expDays: Number(process.env.JWT_EXP_DAYS || 30),
   },
 
+  smtp: {
+    host: String(process.env.SMTP_HOST),
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+      user: String(process.env.SMTP_USER),
+      pass: String(process.env.SMTP_PASS),
+    },
+  },
+
+  mailFrom: `"${process.env.MAIL_FROM_NAME || 'admin'}" <${process.env.MAIL_FROM_EMAIL || 'admin@gmail.com'}>`,
+
   maskMinValue: {
     age: 1,
     price: 1,
