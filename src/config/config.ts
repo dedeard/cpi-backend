@@ -25,7 +25,7 @@ const config = {
     },
   },
 
-  mailFrom: `"${process.env.MAIL_FROM_NAME || 'admin'}" <${process.env.MAIL_FROM_EMAIL || 'admin@gmail.com'}>`,
+  mailFrom: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_EMAIL}>`,
 
   maskMinValue: {
     age: 1,
