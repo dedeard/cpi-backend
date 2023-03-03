@@ -3,7 +3,7 @@ import config from '@/config/config'
 
 export const getAge = (age: number) => {
   if (age < 13) return 0
-  else if (age <= 19) return 1
+  else if (age <= 18) return 1
   else return 2
 }
 
