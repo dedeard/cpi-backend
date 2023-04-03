@@ -1,8 +1,7 @@
 import db from '@/config/db'
 import ApiError from '@/shared/ApiError'
 import ca from '@/shared/catchAsync'
-import makeCpi, { getAge } from '@/shared/cpi'
-import { Mask } from '@prisma/client'
+import makeCpi, { getAge, getCondition, getPrice } from '@/shared/cpi'
 
 export const cpi = ca(async (req, res) => {
   const consumerId = Number(req.query.id)
@@ -13,6 +12,9 @@ export const cpi = ca(async (req, res) => {
   if (!index) throw new ApiError(400, 'Consumer id is invalid')
 
   const age = getAge(index.age)
+  const condition = getCondition(index.condition)
+  const price = getPrice(Number(index.price))
+
   let where: any = {
     AND: [
       {
@@ -21,16 +23,24 @@ export const cpi = ca(async (req, res) => {
       {
         age: { lte: 19 },
       },
+      {
+        condition: index.condition,
+      },
     ],
   }
   if (age == 2) {
     where = {
       age: { gt: 19 },
+      condition: index.condition,
     }
   }
-  const masks = await db.mask.findMany({
-    where,
+  let masks = await db.mask.findMany({ where })
+
+  masks = masks.filter((el) => {
+    const lp = getPrice(Number(el.price))
+    return lp === price
   })
+
   const weight = await db.weight.findMany()
 
   res.json({ cpi: makeCpi(index, masks, weight), consumer })

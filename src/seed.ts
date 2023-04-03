@@ -22,7 +22,7 @@ const masks = [
     name: 'freeman hydrating cactus by:',
     age: 20,
     price: 10000,
-    condition: '	kencang dan gatal',
+    condition: 'kencang dan gatal',
   },
   {
     name: 'Rich Moist Soothing Tencel Sheet Mask by: Dear, Klairs.',
